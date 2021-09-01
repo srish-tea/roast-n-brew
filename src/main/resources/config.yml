@@ -1,0 +1,2 @@
+defaultName: Roast and Brew
+dbURL: jdbc:mysql://localhost:3306/coffee?autoReconnect=true&user=root&password=abcd1234&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false
