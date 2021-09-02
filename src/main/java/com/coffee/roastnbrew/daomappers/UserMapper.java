@@ -1,6 +1,6 @@
 package com.coffee.roastnbrew.daomappers;
 
-import com.coffee.roastnbrew.User;
+import com.coffee.roastnbrew.models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

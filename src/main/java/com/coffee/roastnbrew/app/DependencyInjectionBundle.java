@@ -1,7 +1,9 @@
 package com.coffee.roastnbrew.app;
 
 import com.coffee.roastnbrew.daos.UsersDAO;
+import com.coffee.roastnbrew.services.MarketplaceService;
 import com.coffee.roastnbrew.services.UserService;
+import com.coffee.roastnbrew.services.impl.MarketplaceServiceImpl;
 import com.coffee.roastnbrew.services.impl.UserServiceImpl;
 import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -13,7 +15,7 @@ import javax.inject.Singleton;
 public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInjectionConfiguration> {
 
     @Override
-    public void run(DependencyInjectionConfiguration configuration, Environment environment) throws Exception {
+    public void run(DependencyInjectionConfiguration configuration, Environment environment) {
         environment
                 .jersey()
                 .register(
@@ -25,6 +27,8 @@ public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInj
                                 }*/
                                 bind(UserServiceImpl.class).to(UserService.class).in(Singleton.class);
                                 bind(UsersDAO.class).to(UsersDAO.class).in(Singleton.class);
+                                bind(MarketplaceServiceImpl.class).to(MarketplaceService.class).in(Singleton.class);
+            
 
                                 for (NamedProperty<? extends Object> namedProperty : configuration.getNamedProperties()) {
                                     bind((Object) namedProperty.getValue()).to((Class<Object>) namedProperty.getClazz()).named(namedProperty.getId());
@@ -36,6 +40,6 @@ public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInj
 
     @Override
     public void initialize(Bootstrap<?> bootstrap) {
-
+        throw new UnsupportedOperationException();
     }
 }
