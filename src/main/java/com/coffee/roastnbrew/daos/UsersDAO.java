@@ -94,9 +94,6 @@ public class UsersDAO {
     public boolean updateUser(User user) {
         return this.jdbi.withHandle(handle -> {
             StringBuilder query = new StringBuilder("UPDATE user SET ");
-            if (StringUtils.isNullOrEmpty(user.getEmailId())) {
-                query.append("email_id = :email_id, ");
-            }
             if (StringUtils.isNullOrEmpty(user.getFirstName())) {
                 query.append("fist_name = :first_name, ");
             }
@@ -119,15 +116,13 @@ public class UsersDAO {
                 query.append("can_talk_about = :can_talk_about, ");
             }
             if (ListUtils.isEmpty(user.getCannotTalkAbout())) {
-                query.append("cannot_talk_about = :cannot_talk_about ");
+                query.append("cannot_talk_about = :cannot_talk_about, ");
             }
             query.append("is_group = :is_group, ");
             query.append("coins_balance = :coins_balance ");
+            query.append(" WHERE id = :user_id ");
             
             Update update = handle.createUpdate(query.toString());
-            if (StringUtils.isNullOrEmpty(user.getEmailId())) {
-                update.bind("email_id", user.getEmailId());
-            }
             if (StringUtils.isNullOrEmpty(user.getFirstName())) {
                 update.bind("fist_name", user.getFirstName());
             }
@@ -154,6 +149,7 @@ public class UsersDAO {
             }
             update.bind("is_group", user.isGroup());
             update.bind("coins_balance", user.getCoinsBalance());
+            update.bind("user_id", user.getId());
             return update.execute() == 1;
         });
     }
