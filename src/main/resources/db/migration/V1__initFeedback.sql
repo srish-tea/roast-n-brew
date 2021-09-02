@@ -1,5 +1,5 @@
 
-CREATE TABLE `users`
+CREATE TABLE `feedback`
 (
     `id`          long  NOT NULL AUTO_INCREMENT,
     `sender_id`   long NOT NULL,

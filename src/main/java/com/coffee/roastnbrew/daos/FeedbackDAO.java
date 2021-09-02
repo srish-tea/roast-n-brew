@@ -64,7 +64,7 @@ public class FeedbackDAO {
         });
     }
 
-    public List<Feedback> getUsersFeedback(User user) {
+    public List<Feedback> getUserFeedbacks(User user) {
         return this.jdbi.withHandle(handle -> {
             String query = "SELECT * FROM feedback WHERE receiver_id = :receiver_id";
             return handle.createQuery(query)

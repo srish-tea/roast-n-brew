@@ -28,6 +28,7 @@ public class UserResource {
         return RestUtils.ok(userService.getUserById(userId));
     }
 
+    @GET
     public Response getAllUsers() {
         return RestUtils.ok(userService.getAllUsers());
     }
