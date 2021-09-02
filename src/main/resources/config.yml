@@ -1,2 +1,10 @@
 defaultName: Roast and Brew
-dbURL: jdbc:mysql://localhost:3306/coffee?autoReconnect=true&user=root&password=abcd1234&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false
+dbURL: jdbc:mysql://localhost:3306/coffee?autoReconnect=true&user=root&password=pass&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 9000
+  adminConnectors:
+    - type: http
+      port: 9001

@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 @Singleton
 public class UserResource {
+
     UserService userService;
 
     @Inject

@@ -2,6 +2,7 @@ package com.coffee.roastnbrew.app;
 
 import com.coffee.roastnbrew.resources.UserResource;
 import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 public class Coffee extends Application<CoffeeConfig> {
@@ -13,6 +14,12 @@ public class Coffee extends Application<CoffeeConfig> {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(Bootstrap<CoffeeConfig> bootstrap) {
+        super.initialize(bootstrap);
+        bootstrap.addCommand(new MigrateCommand(this));
     }
 
     @Override
