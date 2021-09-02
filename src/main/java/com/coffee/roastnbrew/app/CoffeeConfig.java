@@ -1,7 +1,5 @@
 package com.coffee.roastnbrew.app;
 
-import com.coffee.roastnbrew.resources.UserResource;
-import com.coffee.roastnbrew.services.impl.UserDBService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 
