@@ -4,16 +4,13 @@ import com.coffee.roastnbrew.services.UserService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("/users")
+@Path("/coffee/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Singleton
 public class UserResource {
-
     UserService userService;
 
     @Inject
@@ -23,7 +20,26 @@ public class UserResource {
 
 
     @GET
-    public String test() {
-        return userService.getUser();
+    public String getAllUsers() {
+        return userService.getAllUsers();
     }
+
+    @Path("/{id}")
+    @GET
+    public String getUserById(@PathParam("id") int userId) {
+        return userService.getUserById(userId);
+    }
+
+    /*
+    @Path("/{id}")
+    @PUT
+    public String updateUser(@PathParam("id") long userId, User user) {
+        return userService.updateUser();
+    }
+
+    @Path("/add")
+    @PUT
+    public String addNewUser(User user) {
+        return userService.addUser();
+    }*/
 }
