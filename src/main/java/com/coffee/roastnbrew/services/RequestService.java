@@ -7,6 +7,6 @@ import org.jvnet.hk2.annotations.Contract;
 @Contract
 public interface RequestService {
 
-    void sendRequest(User user, Request request);
+    void sendRequest(Request request);
 }
 

@@ -6,6 +6,7 @@ import com.coffee.roastnbrew.models.LoginResponse;
 import com.coffee.roastnbrew.services.AuthService;
 import com.coffee.roastnbrew.utils.RestUtils;
 import com.coffee.roastnbrew.utils.StringUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.inject.Inject;
@@ -33,7 +34,7 @@ public class AuthResource {
     @Path("/authenticate")
     public Response authenticate(
         @QueryParam("next") String next, @QueryParam("error_path") String errorPath,
-        @QueryParam("code") String code) throws URISyntaxException {
+        @QueryParam("code") String code) throws URISyntaxException, JsonProcessingException {
     
         String authorizationUrl = authService.getAuthorizationUrl(next, code, errorPath);
         return Response.temporaryRedirect(new URI(authorizationUrl)).build();
