@@ -26,22 +26,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return usersDAO.getAllUsers();
     }
 
     @Override
     public User updateUser(User user) {
-        return null;
+        usersDAO.updateUser(user);
+        return getUserById(user.getId());
     }
 
     @Override
-    public User addUser() {
-        return null;
+    public User addUser(User user) {
+        int userId = usersDAO.addUser(user);
+        return getUserById(userId);
     }
     
     @Override
     public boolean deleteUser(int userId) {
-//        return usersDAO.deleteUser(userId);
-        return true;
+        return usersDAO.deleteUser(userId);
     }
 }
