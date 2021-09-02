@@ -1,5 +1,6 @@
 package com.coffee.roastnbrew.app;
 
+import com.coffee.roastnbrew.daos.UsersDAO;
 import com.coffee.roastnbrew.services.UserService;
 import com.coffee.roastnbrew.services.impl.UserServiceImpl;
 import io.dropwizard.ConfiguredBundle;
@@ -23,6 +24,7 @@ public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInj
                                     bindAsContract(singletonClass).in(Singleton.class);
                                 }*/
                                 bind(UserServiceImpl.class).to(UserService.class).in(Singleton.class);
+                                bind(UsersDAO.class).to(UsersDAO.class).in(Singleton.class);
 
                                 for (NamedProperty<? extends Object> namedProperty : configuration.getNamedProperties()) {
                                     bind((Object) namedProperty.getValue()).to((Class<Object>) namedProperty.getClazz()).named(namedProperty.getId());
