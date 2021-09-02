@@ -14,10 +14,10 @@ import lombok.*;
 @AllArgsConstructor
 @JsonSerialize()
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Product extends Entity {
-    String name;
-    int price; // Price in coins, hence integer
-    String image_url;
-    int count;
-
+public class FeedbackContent {
+    String startText;
+    String continueText;
+    String stopText;
+    String message;
+    String gifUrl;
 }

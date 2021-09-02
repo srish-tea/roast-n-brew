@@ -1,7 +1,6 @@
 package com.coffee.roastnbrew.models;
 
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -14,10 +13,9 @@ import lombok.*;
 @AllArgsConstructor
 @JsonSerialize()
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Product extends Entity {
-    String name;
-    int price; // Price in coins, hence integer
-    String image_url;
-    int count;
+public class Request {
+    long requesterId;
+    long requesteeId;
+    String message;
 
 }

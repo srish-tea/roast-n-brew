@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
         this.usersDAO = usersDAO;
     }
 
-    public User getUserById(int userId) {
+    public User getUserById(long userId) {
         return usersDAO.getById(userId);
     }
 
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(long userId) {
         return usersDAO.deleteUser(userId);
     }
 }

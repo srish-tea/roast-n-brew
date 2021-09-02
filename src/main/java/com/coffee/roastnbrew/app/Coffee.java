@@ -28,13 +28,14 @@ public class Coffee extends Application<CoffeeConfig> {
     }
 
     @Override
-    public void run(CoffeeConfig coffeeConfig, Environment environment) throws Exception {
+    public void run(CoffeeConfig coffeeConfig, Environment environment) {
 
         environment.jersey().register(UserResource.class);
         environment.jersey().register(FeedbackResource.class);
         environment.jersey().register(MarketplaceResource.class);
         environment.jersey().register(NotificationResource.class);
         environment.jersey().register(AuthResource.class);
+        environment.jersey().register(RequestResource.class);
 
         final DependencyInjectionBundle dependencyInjectionBundle = new DependencyInjectionBundle();
         dependencyInjectionBundle.run(coffeeConfig, environment);

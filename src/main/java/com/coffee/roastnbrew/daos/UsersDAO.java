@@ -6,8 +6,10 @@ import com.coffee.roastnbrew.daomappers.UserMapper;
 import com.coffee.roastnbrew.utils.ListUtils;
 import com.coffee.roastnbrew.utils.StringUtils;
 import com.google.inject.Singleton;
+
 import java.util.List;
 import javax.inject.Inject;
+
 import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.Update;
@@ -17,38 +19,38 @@ import org.jvnet.hk2.annotations.Service;
 @Service
 @Singleton
 public class UsersDAO {
-    
+
     private final Jdbi jdbi;
 
     @Inject
     public UsersDAO() {
-        this.jdbi =  Jdbi.create("jdbc:mysql://localhost:3306/coffee?autoReconnect=true&user=root&password=pass&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false");
+        this.jdbi = Jdbi.create(Constants.DB_URL);
         jdbi.registerRowMapper(new UserMapper());
     }
-    
-    public User getById(int userId) {
+
+    public User getById(long userId) {
         return this.jdbi.withHandle(handle -> {
             String query = "SELECT * FROM users WHERE id = :user_id";
             return handle.createQuery(query)
-                .bind(Constants.USER_ID, userId)
-                .mapTo(User.class)
-                .findFirst()
-                .orElse(null)
-                ;
+                    .bind(Constants.USER_ID, userId)
+                    .mapTo(User.class)
+                    .findFirst()
+                    .orElse(null)
+                    ;
         });
     }
 
     public int addUser(User user) {
         return this.jdbi.withHandle(handle -> {
             String query =
-                "INSERT INTO users (email_id, first_name, last_name, "
-                    + "image_url, designation, location, "
-                    + "bio, can_talk_about, cannot_talk_about, "
-                    + "coins_balance, is_group) VALUES "
-                    + "(:email_id, :first_name, :last_name, "
-                    + ":image_url, :designation, :location, "
-                    + ":bio, :can_talk_about, :cannot_talk_about, "
-                    + ":coins_balance, :is_group)";
+                    "INSERT INTO users (email_id, first_name, last_name, "
+                            + "image_url, designation, location, "
+                            + "bio, can_talk_about, cannot_talk_about, "
+                            + "coins_balance, is_group) VALUES "
+                            + "(:email_id, :first_name, :last_name, "
+                            + ":image_url, :designation, :location, "
+                            + ":bio, :can_talk_about, :cannot_talk_about, "
+                            + ":coins_balance, :is_group)";
             Update update = handle.createUpdate(query);
             update.bind("email_id", user.getEmailId());
             update.bind("first_name", user.getFirstName());
@@ -58,26 +60,26 @@ public class UsersDAO {
             update.bind("location", user.getLocation());
             update.bind("bio", user.getBio());
             update.bind("can_talk_about",
-                ListUtils.isEmpty(user.getCanTalkAbout()) ? "" : String.join(",", user.getCanTalkAbout()));
+                    ListUtils.isEmpty(user.getCanTalkAbout()) ? "" : String.join(",", user.getCanTalkAbout()));
             update.bind("cannot_talk_about",
-                ListUtils.isEmpty(user.getCannotTalkAbout()) ? "" : String.join(",", user.getCannotTalkAbout()));
+                    ListUtils.isEmpty(user.getCannotTalkAbout()) ? "" : String.join(",", user.getCannotTalkAbout()));
             update.bind("coins_balance", user.getCoinsBalance());
             update.bind("is_group", user.isGroup());
             return update.executeAndReturnGeneratedKeys()
-                .mapTo(Integer.class)
-                .one();
+                    .mapTo(Integer.class)
+                    .one();
         });
     }
-    
+
     public List<User> getAllUsers() {
         return this.jdbi.withHandle(handle -> {
             String query = "SELECT * FROM users WHERE is_deleted = 0";
             return handle.createQuery(query)
-                .mapTo(User.class)
-                .list();
+                    .mapTo(User.class)
+                    .list();
         });
     }
-    
+
     public boolean updateUser(User user) {
         return this.jdbi.withHandle(handle -> {
             StringBuilder query = new StringBuilder("UPDATE users SET ");
@@ -110,7 +112,7 @@ public class UsersDAO {
             }
             query.append("is_group = :is_group, ");
             query.append("coins_balance = :coins_balance ");
-            
+
             Update update = handle.createUpdate(query.toString());
             if (StringUtils.isNullOrEmpty(user.getEmailId())) {
                 update.bind("email_id", user.getEmailId());
@@ -145,12 +147,12 @@ public class UsersDAO {
         });
     }
 
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(long userId) {
         return this.jdbi.withHandle(handle -> {
             String query = "UPDATE users SET is_deleted = 1 where id = :user_id";
             return handle.createUpdate(query)
-                .bind("user_id", userId)
-                .execute() == 1;
+                    .bind("user_id", userId)
+                    .execute() == 1;
         });
     }
 }
