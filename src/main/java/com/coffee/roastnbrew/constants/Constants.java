@@ -4,4 +4,6 @@ public class Constants {
     
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
+    
+    public static long SYSTEM_USER_ID = -1;
 }

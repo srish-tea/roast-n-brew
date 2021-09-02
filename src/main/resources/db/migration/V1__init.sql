@@ -22,6 +22,11 @@ CREATE TABLE `users`
     KEY `idx_last_name` (`last_name`)
 );
 
+INSERT INTO users (`email_id`, `first_name`, `image_url`, `is_group`)
+VALUES ('roastnbrew@hevodata.com', 'Roast-N-Brew',
+        'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest/scale-to-width-down/300?cb=20170628120149', true);
+
+
 CREATE TABLE `notifications`
 (
     `id`         bigint(20) NOT NULL AUTO_INCREMENT,
