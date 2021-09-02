@@ -1,13 +1,13 @@
 package com.coffee.roastnbrew.app;
 
+import com.coffee.roastnbrew.resources.*;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
-import com.coffee.roastnbrew.resources.UserResource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mysql.jdbc.Driver;
-import com.coffee.roastnbrew.resources.*;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
 import java.beans.PropertyVetoException;
 
 public class Coffee extends Application<CoffeeConfig> {
@@ -28,19 +28,19 @@ public class Coffee extends Application<CoffeeConfig> {
     }
 
     @Override
-    public void run(CoffeeConfig coffeeConfig, Environment environment) throws Exception {
+    public void run(CoffeeConfig coffeeConfig, Environment environment) {
 
         environment.jersey().register(UserResource.class);
         environment.jersey().register(FeedbackResource.class);
         environment.jersey().register(MarketplaceResource.class);
         environment.jersey().register(NotificationResource.class);
         environment.jersey().register(AuthResource.class);
+        environment.jersey().register(RequestResource.class);
 
         final DependencyInjectionBundle dependencyInjectionBundle = new DependencyInjectionBundle();
         dependencyInjectionBundle.run(coffeeConfig, environment);
-
     }
-    
+
     private ComboPooledDataSource createDataSource(CoffeeConfig coffeeConfig) throws CoffeeException {
         ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
         try {

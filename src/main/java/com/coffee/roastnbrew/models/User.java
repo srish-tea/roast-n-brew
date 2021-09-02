@@ -17,7 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonSerialize()
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class User extends Entity {
     

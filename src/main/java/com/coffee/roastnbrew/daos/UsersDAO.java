@@ -22,7 +22,7 @@ public class UsersDAO {
 
     @Inject
     public UsersDAO() {
-        this.jdbi =  Jdbi.create("jdbc:mysql://localhost:3306/coffee?autoReconnect=true&user=root&password=pass&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false");
+        this.jdbi = Jdbi.create(Constants.DB_URL);
         jdbi.registerRowMapper(new UserMapper());
     }
     
