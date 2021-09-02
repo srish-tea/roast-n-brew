@@ -1,13 +1,17 @@
 package com.coffee.roastnbrew.services;
 
+import com.coffee.roastnbrew.exceptions.CoffeeException;
 import com.coffee.roastnbrew.models.Feedback;
-import com.coffee.roastnbrew.models.User;
 import org.jvnet.hk2.annotations.Contract;
+
+import java.io.IOException;
 
 @Contract
 public interface FeedbackService {
 
-    void giveFeedback(User user, Feedback feedback);
+    long giveFeedback(Feedback feedback) throws IOException, CoffeeException;
 
-    void updateFeedback(Feedback feedback);
+    boolean updateFeedback(Feedback feedback);
+
+    Feedback getFeedbackById(long id);
 }

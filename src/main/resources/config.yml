@@ -1,5 +1,5 @@
 defaultName: Roast and Brew
-dbURL: jdbc:mysql://10.0.18.195:3306/coffee?autoReconnect=true&user=root&password=rootROOT&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false
+dbURL: jdbc:mysql://10.0.18.58:3306/coffee?autoReconnect=true&user=root&password=rootROOT&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false
 
 server:
   applicationConnectors:

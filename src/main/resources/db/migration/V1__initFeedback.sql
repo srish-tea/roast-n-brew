@@ -6,7 +6,7 @@ CREATE TABLE `feedback`
     `receiver_id` bigint(20)   DEFAULT NULL,
     `is_anonymous` boolean,
     `is_public` boolean,
-    `content` text DEFAULT NULL,
+    `content` json DEFAULT NULL,
     `cards` text DEFAULT NULL,
     `coins` int,
     `is_visible` boolean,

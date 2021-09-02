@@ -1,18 +1,16 @@
 package com.coffee.roastnbrew.resources;
 
+import com.coffee.roastnbrew.exceptions.CoffeeException;
 import com.coffee.roastnbrew.models.Feedback;
-import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.services.FeedbackService;
 import com.coffee.roastnbrew.utils.RestUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 @Path("/coffee/feedbacks")
 @Produces(MediaType.APPLICATION_JSON)
@@ -26,16 +24,22 @@ public class FeedbackResource {
     }
 
     @POST
-    public Response giveFeedback(User user, Feedback feedback) {
-        feedbackService.giveFeedback(user, feedback);
+    public Response giveFeedback(Feedback feedback) throws IOException, CoffeeException {
+        long feedbackId = feedbackService.giveFeedback(feedback);
         //send notification
-        return RestUtils.noContentResponse();
+        return RestUtils.ok(feedbackService.getFeedbackById(feedbackId));
     }
 
     @PUT
     public Response updateFeedback(Feedback feedback) {
-        feedbackService.updateFeedback(feedback);
+         feedbackService.updateFeedback(feedback);
         //send notification
-        return RestUtils.noContentResponse();
+        return RestUtils.ok(feedbackService.getFeedbackById(feedback.getId()));
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response getFeedback(@PathParam("id") Long id) throws IOException {
+        return RestUtils.ok(feedbackService.getFeedbackById(id));
     }
 }
