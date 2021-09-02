@@ -16,5 +16,4 @@ public interface UserService {
     User addUser(User user);
     
     boolean deleteUser(long userId);
-
 }

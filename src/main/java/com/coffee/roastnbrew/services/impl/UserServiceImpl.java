@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 @Singleton
 public class UserServiceImpl implements UserService {
     
-    private UsersDAO usersDAO;
+    private final UsersDAO usersDAO;
 
     @Inject
     public UserServiceImpl(UsersDAO usersDAO) {

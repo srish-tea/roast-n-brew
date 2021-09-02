@@ -1,10 +1,10 @@
-package com.coffee.roastnbrew.models;
+package com.coffee.roastnbrew.models.notifications;
 
+import com.coffee.roastnbrew.models.Entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,19 +17,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonSerialize()
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class User extends Entity {
+public class Notification extends Entity {
     
-    private String emailId;
-    private String firstName;
-    private String lastName;
-    private String imageUrl;
-    private String designation;
-    private String location;
-    private String bio;
-    private List<String> canTalkAbout;
-    private List<String> cannotTalkAbout;
-    private int coinsBalance;
-    private boolean isGroup;
+    private Long userId;
+    private NotificationType type;
+    private String message;
+    private boolean isRead;
+    private Long entityId;
+    private Long fromId;
 
 }
