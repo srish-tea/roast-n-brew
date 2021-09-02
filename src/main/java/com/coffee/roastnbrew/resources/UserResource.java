@@ -4,7 +4,6 @@ import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.services.UserService;
 
 import com.coffee.roastnbrew.utils.RestUtils;
-import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
@@ -25,7 +24,7 @@ public class UserResource {
 
     @GET
     @Path("/{id}")
-    public Response getUserById(@PathParam("id") int userId) {
+    public Response getUserById(@PathParam("id") long userId) {
         return RestUtils.ok(userService.getUserById(userId));
     }
 
@@ -47,7 +46,7 @@ public class UserResource {
     
     @DELETE
     @Path("/{id}")
-    public Response deleteUser(@PathParam("id") int userId) {
+    public Response deleteUser(@PathParam("id") long userId) {
         return RestUtils.ok(userService.deleteUser(userId));
     }
 }

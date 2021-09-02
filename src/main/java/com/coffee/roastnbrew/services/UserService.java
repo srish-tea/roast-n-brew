@@ -7,7 +7,7 @@ import org.jvnet.hk2.annotations.Contract;
 @Contract
 public interface UserService {
     
-    User getUserById(int id);
+    User getUserById(long id);
 
     List<User> getAllUsers();
     
@@ -15,5 +15,5 @@ public interface UserService {
     
     User addUser(User user);
     
-    boolean deleteUser(int userId);
+    boolean deleteUser(long userId);
 }
