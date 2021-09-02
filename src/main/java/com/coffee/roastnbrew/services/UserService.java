@@ -5,5 +5,11 @@ import org.jvnet.hk2.annotations.Contract;
 @Contract
 public interface UserService {
 
-    public String getUser();
+    String getUserById(int id);
+
+    String getAllUsers();
+
+    String updateUser();
+
+    String addUser();
 }

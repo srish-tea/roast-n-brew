@@ -8,7 +8,24 @@ import javax.inject.Singleton;
 @Service
 @Singleton
 public class UserServiceImpl implements UserService {
-    public String getUser() {
+
+    @Override
+    public String getUserById(int id) {
         return "Works!";
+    }
+
+    @Override
+    public String getAllUsers() {
+        return null;
+    }
+
+    @Override
+    public String updateUser() {
+        return null;
+    }
+
+    @Override
+    public String addUser() {
+        return null;
     }
 }
