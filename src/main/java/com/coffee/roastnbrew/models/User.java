@@ -32,6 +32,6 @@ public class User extends Entity {
     private List<String> canTalkAbout;
     private List<String> cannotTalkAbout;
     private int coinsBalance;
-    private boolean group;
+    private boolean isGroup;
 
 }
