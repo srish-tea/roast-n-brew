@@ -1,6 +1,10 @@
 package com.coffee.roastnbrew.services.impl;
 
+import com.coffee.roastnbrew.models.User;
+import com.coffee.roastnbrew.daos.UsersDAO;
 import com.coffee.roastnbrew.services.UserService;
+import java.util.List;
+import javax.inject.Inject;
 import org.jvnet.hk2.annotations.Service;
 
 import javax.inject.Singleton;
@@ -8,24 +12,36 @@ import javax.inject.Singleton;
 @Service
 @Singleton
 public class UserServiceImpl implements UserService {
+    
+    private UsersDAO usersDAO;
 
-    @Override
-    public String getUserById(int id) {
-        return "Works!";
+    @Inject
+    public UserServiceImpl(UsersDAO usersDAO) {
+        this.usersDAO = usersDAO;
+    }
+
+    public User getUserById(int userId) {
+        return usersDAO.getById(userId);
     }
 
     @Override
-    public String getAllUsers() {
+    public List<User> getAllUsers() {
         return null;
     }
 
     @Override
-    public String updateUser() {
+    public User updateUser(User user) {
         return null;
     }
 
     @Override
-    public String addUser() {
+    public User addUser() {
         return null;
+    }
+    
+    @Override
+    public boolean deleteUser(int userId) {
+//        return usersDAO.deleteUser(userId);
+        return true;
     }
 }
