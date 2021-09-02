@@ -1,7 +1,9 @@
 package com.coffee.roastnbrew.services;
 
 import com.coffee.roastnbrew.models.Product;
+import org.jvnet.hk2.annotations.Contract;
 
+@Contract
 public interface MarketplaceService {
     String getAllProducts();
 

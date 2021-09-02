@@ -2,7 +2,12 @@ package com.coffee.roastnbrew.services.impl;
 
 import com.coffee.roastnbrew.models.Product;
 import com.coffee.roastnbrew.services.MarketplaceService;
+import org.jvnet.hk2.annotations.Service;
 
+import javax.inject.Singleton;
+
+@Service
+@Singleton
 public class MarketplaceServiceImpl implements MarketplaceService {
 
     @Override
