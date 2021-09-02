@@ -10,7 +10,7 @@ import lombok.Setter;
 @JsonSerialize()
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Entity {
-    int id;
+    long id;
     boolean isDeleted;
     private long createdTs;
     private long updatedTs;

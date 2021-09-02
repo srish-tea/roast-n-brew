@@ -13,14 +13,14 @@ import javax.inject.Singleton;
 @Singleton
 public class UserServiceImpl implements UserService {
     
-    private UsersDAO usersDAO;
+    private final UsersDAO usersDAO;
 
     @Inject
     public UserServiceImpl(UsersDAO usersDAO) {
         this.usersDAO = usersDAO;
     }
 
-    public User getUserById(int userId) {
+    public User getUserById(long userId) {
         return usersDAO.getById(userId);
     }
 
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(long userId) {
         return usersDAO.deleteUser(userId);
     }
 }

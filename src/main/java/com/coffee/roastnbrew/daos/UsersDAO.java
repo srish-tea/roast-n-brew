@@ -26,7 +26,7 @@ public class UsersDAO {
         jdbi.registerRowMapper(new UserMapper());
     }
     
-    public User getById(int userId) {
+    public User getById(long userId) {
         return this.jdbi.withHandle(handle -> {
             String query = "SELECT * FROM users WHERE id = :user_id";
             return handle.createQuery(query)
@@ -145,7 +145,7 @@ public class UsersDAO {
         });
     }
 
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(long userId) {
         return this.jdbi.withHandle(handle -> {
             String query = "UPDATE users SET is_deleted = 1 where id = :user_id";
             return handle.createUpdate(query)
