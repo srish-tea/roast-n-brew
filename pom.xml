@@ -114,6 +114,18 @@
             <version>0.9.1.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-plus</artifactId>
+            <version>v1-rev590-1.25.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.toastshaman</groupId>
+            <artifactId>dropwizard-auth-jwt</artifactId>
+            <version>1.1.2-0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

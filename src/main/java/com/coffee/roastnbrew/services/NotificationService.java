@@ -13,4 +13,6 @@ public interface NotificationService {
     boolean markNotificationsRead(List<Long> notificationIds);
     
     void sendNotificationOnNewUser(User user);
+    
+    void sendGlobalNotification(String message);
 }

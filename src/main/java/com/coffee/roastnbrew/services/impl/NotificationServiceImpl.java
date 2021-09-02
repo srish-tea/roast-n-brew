@@ -1,5 +1,6 @@
 package com.coffee.roastnbrew.services.impl;
 
+import com.coffee.roastnbrew.app.AsyncActor;
 import com.coffee.roastnbrew.constants.Constants;
 import com.coffee.roastnbrew.daos.NotificationDAO;
 import com.coffee.roastnbrew.daos.UsersDAO;
@@ -55,5 +56,25 @@ public class NotificationServiceImpl implements NotificationService {
             
             notificationDAO.createNotification(notification);
         }
+    }
+
+    public void sendGlobalNotification(String message) {
+        AsyncActor.perform("Global Notification", () -> {
+            List<User> users = usersDAO.getAllUsers();
+            for (User user: users) {
+                if (Constants.SYSTEM_USER_ID == user.getId()) {
+                    continue;
+                }
+                Notification notification = new Notification();
+        
+                notification.setUserId(user.getId());
+                notification.setType(NotificationType.GLOBAL_NOTIFICATION);
+                notification.setMessage(message);
+                notification.setFromId(Constants.SYSTEM_USER_ID);
+                notification.setEntityId(user.getId());
+        
+                notificationDAO.createNotification(notification);
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.coffee.roastnbrew.daos;
 
+import com.coffee.roastnbrew.app.CoffeeConfig;
 import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.constants.Constants;
 import com.coffee.roastnbrew.daomappers.UserMapper;
@@ -22,15 +23,27 @@ public class UsersDAO {
 
     @Inject
     public UsersDAO() {
-        this.jdbi =  Jdbi.create("jdbc:mysql://localhost:3306/coffee?autoReconnect=true&user=root&password=pass&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false");
+        this.jdbi = Jdbi.create("jdbc:mysql://10.0.18.58:3306/coffee?autoReconnect=true&user=root&password=rootROOT&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false");
         jdbi.registerRowMapper(new UserMapper());
     }
     
     public User getById(long userId) {
         return this.jdbi.withHandle(handle -> {
-            String query = "SELECT * FROM users WHERE id = :user_id";
+            String query = "SELECT * FROM user WHERE id = :user_id";
             return handle.createQuery(query)
                 .bind(Constants.USER_ID, userId)
+                .mapTo(User.class)
+                .findFirst()
+                .orElse(null)
+                ;
+        });
+    }
+    
+    public User getByEmail(String email) {
+        return this.jdbi.withHandle(handle -> {
+            String query = "SELECT * FROM user WHERE email_id = :email_id";
+            return handle.createQuery(query)
+                .bind("email_id", email)
                 .mapTo(User.class)
                 .findFirst()
                 .orElse(null)
@@ -41,7 +54,7 @@ public class UsersDAO {
     public int addUser(User user) {
         return this.jdbi.withHandle(handle -> {
             String query =
-                "INSERT INTO users (email_id, first_name, last_name, "
+                "INSERT INTO user (email_id, first_name, last_name, "
                     + "image_url, designation, location, "
                     + "bio, can_talk_about, cannot_talk_about, "
                     + "coins_balance, is_group) VALUES "
@@ -71,7 +84,7 @@ public class UsersDAO {
     
     public List<User> getAllUsers() {
         return this.jdbi.withHandle(handle -> {
-            String query = "SELECT * FROM users WHERE is_deleted = 0";
+            String query = "SELECT * FROM user WHERE is_deleted = 0";
             return handle.createQuery(query)
                 .mapTo(User.class)
                 .list();
@@ -80,7 +93,7 @@ public class UsersDAO {
     
     public boolean updateUser(User user) {
         return this.jdbi.withHandle(handle -> {
-            StringBuilder query = new StringBuilder("UPDATE users SET ");
+            StringBuilder query = new StringBuilder("UPDATE user SET ");
             if (StringUtils.isNullOrEmpty(user.getEmailId())) {
                 query.append("email_id = :email_id, ");
             }
@@ -147,7 +160,7 @@ public class UsersDAO {
 
     public boolean deleteUser(long userId) {
         return this.jdbi.withHandle(handle -> {
-            String query = "UPDATE users SET is_deleted = 1 where id = :user_id";
+            String query = "UPDATE user SET is_deleted = 1 where id = :user_id";
             return handle.createUpdate(query)
                 .bind("user_id", userId)
                 .execute() == 1;
