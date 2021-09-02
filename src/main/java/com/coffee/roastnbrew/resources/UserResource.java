@@ -4,16 +4,18 @@ import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.services.UserService;
 
 import com.coffee.roastnbrew.utils.RestUtils;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Singleton
 @Path("/coffee/users")
 @Produces(MediaType.APPLICATION_JSON)
-@Singleton
 public class UserResource {
+
     UserService userService;
 
     @Inject
@@ -37,10 +39,9 @@ public class UserResource {
         return RestUtils.ok(userService.updateUser(user));
     }
 
-    @PUT
-    @Path("/add")
+    @POST
     public Response addNewUser(User user) {
-        return RestUtils.ok(userService.addUser());
+        return RestUtils.ok(userService.addUser(user));
     }
     
     @DELETE
