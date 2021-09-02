@@ -1,7 +1,9 @@
 package com.coffee.roastnbrew.services.impl;
 
+import com.coffee.roastnbrew.app.AsyncActor;
 import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.daos.UsersDAO;
+import com.coffee.roastnbrew.services.NotificationService;
 import com.coffee.roastnbrew.services.UserService;
 import java.util.List;
 import javax.inject.Inject;
@@ -14,10 +16,12 @@ import javax.inject.Singleton;
 public class UserServiceImpl implements UserService {
     
     private final UsersDAO usersDAO;
+    private final NotificationService notificationService;
 
     @Inject
-    public UserServiceImpl(UsersDAO usersDAO) {
+    public UserServiceImpl(UsersDAO usersDAO, NotificationService notificationService) {
         this.usersDAO = usersDAO;
+        this.notificationService = notificationService;
     }
 
     public User getUserById(long userId) {
@@ -38,7 +42,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) {
         int userId = usersDAO.addUser(user);
-        return getUserById(userId);
+        User newUser = getUserById(userId);
+    
+        AsyncActor.perform("New User", () -> notificationService.sendNotificationOnNewUser(newUser));
+
+        return newUser;
     }
     
     @Override

@@ -5,6 +5,7 @@ import com.coffee.roastnbrew.daos.NotificationDAO;
 import com.coffee.roastnbrew.daos.RequestDAO;
 import com.coffee.roastnbrew.daos.UsersDAO;
 import com.coffee.roastnbrew.services.*;
+import com.coffee.roastnbrew.services.impl.AuthServiceImpl;
 import com.coffee.roastnbrew.services.impl.FeedbackServiceImpl;
 import com.coffee.roastnbrew.services.impl.MarketplaceServiceImpl;
 import com.coffee.roastnbrew.services.impl.RequestServiceImpl;
@@ -35,6 +36,7 @@ public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInj
                                 bind(FeedbackServiceImpl.class).to(FeedbackService.class).in(Singleton.class);
                                 bind(RequestServiceImpl.class).to(RequestService.class).in(Singleton.class);
                                 bind(NotificationServiceImpl.class).to(NotificationService.class).in(Singleton.class);
+                                bind(AuthServiceImpl.class).to(AuthService.class).in(Singleton.class);
 
                                 bind(UsersDAO.class).to(UsersDAO.class).in(Singleton.class);
                                 bind(FeedbackDAO.class).to(FeedbackDAO.class).in(Singleton.class);
