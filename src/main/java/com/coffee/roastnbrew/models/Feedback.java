@@ -1,11 +1,11 @@
 package com.coffee.roastnbrew.models;
 
-
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,10 +14,15 @@ import lombok.*;
 @AllArgsConstructor
 @JsonSerialize()
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Product extends Entity {
-    String name;
-    int price; // Price in coins, hence integer
-    String image_url;
-    int count;
+public class Feedback extends Entity {
+    long senderId;
+    long receiverId;
+    boolean isAnonymous;
+    boolean isPublic;
+    FeedbackContent content;
+    List<Card> cards;
+    int coins;
+    boolean isVisible;  //visible to visitor
+    String receiverReply;
 
 }

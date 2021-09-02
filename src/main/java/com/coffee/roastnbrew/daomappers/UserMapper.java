@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import com.coffee.roastnbrew.utils.StringUtils;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 
@@ -23,12 +25,12 @@ public class UserMapper implements RowMapper<User> {
         user.setLocation(rs.getString("location"));
         
         String canTalkAbout = rs.getString("can_talk_about");
-        user.setCanTalkAbout(canTalkAbout != null ?
+        user.setCanTalkAbout(!StringUtils.isNullOrEmpty(canTalkAbout) ?
             Arrays.stream(canTalkAbout.split(",")).collect(Collectors.toList()) :
             new ArrayList<>());
         
         String cannotTalkAbout = rs.getString("cannot_talk_about");
-        user.setCannotTalkAbout(cannotTalkAbout != null ?
+        user.setCannotTalkAbout(!StringUtils.isNullOrEmpty(cannotTalkAbout) ?
             Arrays.stream(cannotTalkAbout.split(",")).collect(Collectors.toList()) :
             new ArrayList<>());
 

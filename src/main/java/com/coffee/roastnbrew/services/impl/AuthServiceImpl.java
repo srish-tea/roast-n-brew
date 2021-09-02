@@ -10,7 +10,9 @@ import com.coffee.roastnbrew.models.LoginResponse.LoginResponseBuilder;
 import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.services.AuthService;
 import com.coffee.roastnbrew.utils.AuthUtils;
+import com.coffee.roastnbrew.utils.JSONUtils;
 import com.coffee.roastnbrew.utils.URLUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
@@ -19,7 +21,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.plus.PlusScopes;
-import com.jayway.jsonpath.spi.json.GsonJsonProvider;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -54,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
             .build();
     }
     
-    public String getAuthorizationUrl(String next, String code, String errorPath) {
+    public String getAuthorizationUrl(String next, String code, String errorPath) throws JsonProcessingException {
         GoogleAuthorizationCodeRequestUrl authorizationUrl = flow.newAuthorizationUrl()
             .setRedirectUri(getRedirectURL())
             .setApprovalPrompt("auto")
@@ -69,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
             .errorPath(errorPath)
             .build();
         
-        authorizationUrl.setState(encodeOAuthState(new GsonJsonProvider().toJson(stateDTO)));
+        authorizationUrl.setState(encodeOAuthState(JSONUtils.toJson(stateDTO)));
         
         return authorizationUrl.build();
     }

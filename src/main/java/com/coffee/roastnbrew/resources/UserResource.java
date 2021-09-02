@@ -2,8 +2,8 @@ package com.coffee.roastnbrew.resources;
 
 import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.services.UserService;
-
 import com.coffee.roastnbrew.utils.RestUtils;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.*;

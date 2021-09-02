@@ -1,6 +1,5 @@
 package com.coffee.roastnbrew.daos;
 
-import com.coffee.roastnbrew.app.CoffeeConfig;
 import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.constants.Constants;
 import com.coffee.roastnbrew.daomappers.UserMapper;
@@ -23,7 +22,7 @@ public class UsersDAO {
 
     @Inject
     public UsersDAO() {
-        this.jdbi = Jdbi.create("jdbc:mysql://10.0.18.58:3306/coffee?autoReconnect=true&user=root&password=rootROOT&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false");
+        this.jdbi = Jdbi.create(Constants.DB_URL);
         jdbi.registerRowMapper(new UserMapper());
     }
     
