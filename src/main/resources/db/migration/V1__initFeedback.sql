@@ -1,13 +1,13 @@
 
 CREATE TABLE `feedback`
 (
-    `id`          long  NOT NULL AUTO_INCREMENT,
-    `sender_id`   long NOT NULL,
-    `receiver_id` long  DEFAULT NULL,
+    `id`          bigint(20)   NOT NULL AUTO_INCREMENT,
+    `sender_id`   bigint(20)  NOT NULL,
+    `receiver_id` bigint(20)   DEFAULT NULL,
     `is_anonymous` boolean,
     `is_public` boolean,
-    `content` text NOT NULL,
-    `cards` text NOT NULL,
+    `content` text DEFAULT NULL,
+    `cards` text DEFAULT NULL,
     `coins` int,
     `is_visible` boolean,
     `receiver_reply` text,
