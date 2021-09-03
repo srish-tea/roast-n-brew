@@ -1,10 +1,11 @@
-package com.coffee.roastnbrew.models;
-
+package com.coffee.roastnbrew.dtos;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,10 +14,6 @@ import lombok.*;
 @AllArgsConstructor
 @JsonSerialize()
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Product extends Entity {
-    String name;
-    int price; // Price in coins, hence integer
-    String imageUrl;
-    int count;
-
+public class SentimentAnalysisRequest {
+    List<String> data;
 }

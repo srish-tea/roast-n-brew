@@ -1,4 +1,4 @@
-package com.coffee.roastnbrew.models;
+package com.coffee.roastnbrew.dtos;
 
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -13,10 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @JsonSerialize()
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Product extends Entity {
-    String name;
-    int price; // Price in coins, hence integer
-    String imageUrl;
-    int count;
-
+public class BadResponse {
+    String message;
+    int code;
 }
