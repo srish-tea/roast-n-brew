@@ -1,7 +1,7 @@
 package com.coffee.roastnbrew.services;
 
 import com.coffee.roastnbrew.exceptions.CoffeeException;
-import com.coffee.roastnbrew.models.LoginResponse;
+import com.coffee.roastnbrew.models.auth.LoginResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.jvnet.hk2.annotations.Contract;
 

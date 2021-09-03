@@ -2,8 +2,10 @@ package com.coffee.roastnbrew.services.impl;
 
 import com.coffee.roastnbrew.daos.FeedbackDAO;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
-import com.coffee.roastnbrew.models.Feedback;
+import com.coffee.roastnbrew.models.feedbacks.Feedback;
+import com.coffee.roastnbrew.models.feedbacks.FeedbackDetailed;
 import com.coffee.roastnbrew.services.FeedbackService;
+import java.util.List;
 import org.jvnet.hk2.annotations.Service;
 
 import javax.inject.Inject;
@@ -22,6 +24,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public long giveFeedback(Feedback feedback) throws IOException, CoffeeException {
+        feedback.setVisible(feedback.isPublic());
         return feedbackDAO.addFeedback(feedback);
     }
 
@@ -31,7 +34,12 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback getFeedbackById(long id) {
+    public FeedbackDetailed getFeedbackById(long id) {
         return feedbackDAO.getById(id);
+    }
+    
+    @Override
+    public List<FeedbackDetailed> getFeedbacks(long userId, boolean publicOnly, boolean visibleOnly) {
+        return feedbackDAO.getDetailedUserFeedbacks(userId, publicOnly, visibleOnly);
     }
 }

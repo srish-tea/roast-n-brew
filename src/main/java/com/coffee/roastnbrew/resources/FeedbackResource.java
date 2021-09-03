@@ -1,7 +1,7 @@
 package com.coffee.roastnbrew.resources;
 
 import com.coffee.roastnbrew.exceptions.CoffeeException;
-import com.coffee.roastnbrew.models.Feedback;
+import com.coffee.roastnbrew.models.feedbacks.Feedback;
 import com.coffee.roastnbrew.services.FeedbackService;
 import com.coffee.roastnbrew.utils.RestUtils;
 
@@ -21,6 +21,13 @@ public class FeedbackResource {
     @Inject
     public FeedbackResource(FeedbackService feedbackService) {
         this.feedbackService = feedbackService;
+    }
+    
+    @GET
+    public Response getFeedbacks(@QueryParam("user_id") long userId,
+        @QueryParam("public_only") @DefaultValue("false") boolean publicOnly,
+        @QueryParam("visible_only") @DefaultValue("false") boolean visibleOnly) {
+        return RestUtils.ok(feedbackService.getFeedbacks(userId, publicOnly, visibleOnly));
     }
 
     @POST

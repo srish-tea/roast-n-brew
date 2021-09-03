@@ -1,5 +1,7 @@
-package com.coffee.roastnbrew.models;
+package com.coffee.roastnbrew.models.feedbacks;
 
+import com.coffee.roastnbrew.models.Card;
+import com.coffee.roastnbrew.models.Entity;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

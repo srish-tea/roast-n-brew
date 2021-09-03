@@ -24,8 +24,8 @@ public class UserResource {
 
     @GET
     @Path("/{id}")
-    public Response getUserById(@PathParam("id") long userId) {
-        return RestUtils.ok(userService.getUserById(userId));
+    public Response getUserById(@PathParam("id") long userId, @QueryParam("detailed") @DefaultValue("true") boolean detailed) {
+        return RestUtils.ok(userService.getUserById(userId, detailed));
     }
 
     @GET

@@ -1,8 +1,7 @@
 package com.coffee.roastnbrew.resources;
 
 
-import com.coffee.roastnbrew.models.Request;
-import com.coffee.roastnbrew.models.User;
+import com.coffee.roastnbrew.models.feedbacks.Request;
 import com.coffee.roastnbrew.services.RequestService;
 import com.coffee.roastnbrew.utils.RestUtils;
 

@@ -1,8 +1,8 @@
 package com.coffee.roastnbrew.daomappers;
 
 import com.coffee.roastnbrew.models.Card;
-import com.coffee.roastnbrew.models.Feedback;
-import com.coffee.roastnbrew.models.FeedbackContent;
+import com.coffee.roastnbrew.models.feedbacks.Feedback;
+import com.coffee.roastnbrew.models.feedbacks.FeedbackContent;
 import com.coffee.roastnbrew.utils.JSONUtils;
 import com.coffee.roastnbrew.utils.StringUtils;
 import lombok.SneakyThrows;
