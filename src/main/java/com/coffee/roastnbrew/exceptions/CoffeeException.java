@@ -21,4 +21,12 @@ public class CoffeeException extends Exception {
             Thread.currentThread().interrupt();
         }
     }
+    
+    public CoffeeException(Throwable cause) {
+        super(cause);
+        
+        if(cause instanceof InterruptedException) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
