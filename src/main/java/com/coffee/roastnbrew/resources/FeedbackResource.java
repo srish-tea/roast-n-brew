@@ -28,11 +28,20 @@ public class FeedbackResource {
     }
 
     @GET
-    public Response getFeedbacks(@QueryParam("user_id") long userId,
+    public Response getFeedbacks(@QueryParam("user_id") long receiverId,
         @QueryParam("public_only") @DefaultValue("false") boolean publicOnly,
         @QueryParam("visible_only") @DefaultValue("false") boolean visibleOnly) {
-        return RestUtils.ok(feedbackService.getFeedbacks(userId, publicOnly, visibleOnly));
+        return RestUtils.ok(feedbackService.getFeedbacks(receiverId, publicOnly, visibleOnly));
     }
+
+    @GET
+    @Path("/given")
+    public Response getGivenFeedbacks(@QueryParam("user_id") long senderId,
+                                 @QueryParam("public_only") @DefaultValue("false") boolean publicOnly,
+                                 @QueryParam("visible_only") @DefaultValue("false") boolean visibleOnly) {
+        return RestUtils.ok(feedbackService.getGivenFeedbacks(senderId, publicOnly, visibleOnly));
+    }
+
 
     @POST
     public Response giveFeedback(Feedback feedback) throws IOException, CoffeeException {

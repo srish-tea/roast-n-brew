@@ -133,7 +133,7 @@ public class FeedbackDAO {
         });
     }
 
-    public List<FeedbackDetailed> getDetailedUserFeedbacks(Long userId, boolean publicOnly, boolean visibleOnly) {
+    public List<FeedbackDetailed> getDetailedUserFeedbacks(Long senderId, Long receiverId, boolean publicOnly, boolean visibleOnly) {
         return this.jdbi.withHandle(handle -> {
             StringBuilder query = new StringBuilder(""
                 + "SELECT f.*, "
@@ -148,8 +148,11 @@ public class FeedbackDAO {
                 + "FROM feedback f "
                 + "         JOIN user sndr ON f.sender_id = sndr.id "
                 + "         JOIN user recvr ON f.receiver_id = recvr.id");
-            if (userId != null) {
-                query.append(" WHERE receiver_id = :user_id");
+            if (receiverId != null) {
+                query.append(" WHERE receiver_id = :receiver_id");
+            }
+            if (senderId != null) {
+                query.append(" WHERE sender_id = :sender_id");
             }
             
             if (publicOnly) {
@@ -161,8 +164,11 @@ public class FeedbackDAO {
 
             query.append(" ORDER BY f.id DESC");
             Query queryObj = handle.createQuery(query.toString());
-            if (userId != null) {
-                queryObj.bind("user_id", userId);
+            if (receiverId != null) {
+                queryObj.bind("receiver_id", receiverId);
+            }
+            if (senderId != null) {
+                queryObj.bind("sender_id", senderId);
             }
             return queryObj.mapTo(FeedbackDetailed.class).list();
         });
