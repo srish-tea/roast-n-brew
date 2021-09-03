@@ -42,6 +42,8 @@ public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInj
                                 bind(ProductDAO.class).to(ProductDAO.class).in(Singleton.class);
                                 bind(OrderDAO.class).to(OrderDAO.class).in(Singleton.class);
 
+                                bind(SentimentAnalysisService.class).to(SentimentAnalysisService.class).in(Singleton.class);
+
                                 for (NamedProperty<? extends Object> namedProperty : configuration.getNamedProperties()) {
                                     bind((Object) namedProperty.getValue()).to((Class<Object>) namedProperty.getClazz()).named(namedProperty.getId());
                                 }

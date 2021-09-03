@@ -1,4 +1,5 @@
-package com.coffee.roastnbrew.models;
+package com.coffee.roastnbrew.dtos;
+
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -7,11 +8,12 @@ import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonSerialize()
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Entity {
-    long id;
-    boolean isDeleted;
-    private long createdTs;
-    private long updatedTs;
+public class BadResponse {
+    String message;
+    int code;
 }

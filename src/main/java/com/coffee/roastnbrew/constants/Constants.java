@@ -8,6 +8,5 @@ public class Constants {
 
     public static long SYSTEM_USER_ID = -1;
     public static final String HEVO_EMAIL_AT_SUFFIX = "@hevodata.com";
-    
     public static final long COIN_VALUE = 50;
 }

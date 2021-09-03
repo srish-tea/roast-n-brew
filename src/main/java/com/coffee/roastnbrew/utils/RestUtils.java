@@ -14,15 +14,16 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.utils.URIBuilder;
+
 import javax.json.JsonStructure;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.utils.URIBuilder;
 
 @Slf4j
 public class RestUtils {
@@ -156,7 +157,7 @@ public class RestUtils {
             String responseBody = IOUtils.toString(is, "UTF-8");
             responseBuilder.entity(responseBody);
         }
-        
+
         Map<String, List<String>> headers = conn.getHeaderFields();
         if (headers != null) {
             for (String header : headers.keySet()) {
