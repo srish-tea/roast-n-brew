@@ -19,4 +19,6 @@ public interface MarketplaceService {
     long createOrder(Order order);
 
     boolean decreaseProductCount(Product product, int orderQuantity);
+
+    List<Order> getOrdersByUserId(long userId);
 }
