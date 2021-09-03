@@ -1,9 +1,9 @@
 package com.coffee.roastnbrew.daos;
 
 import com.coffee.roastnbrew.constants.Constants;
-import com.coffee.roastnbrew.daomappers.FeedbackMapper;
-import com.coffee.roastnbrew.models.User;
+import com.coffee.roastnbrew.daomappers.OrderMapper;
 import com.coffee.roastnbrew.models.marketplace.Order;
+import com.coffee.roastnbrew.models.marketplace.OrderStatus;
 import com.coffee.roastnbrew.utils.StringUtils;
 import com.google.inject.Singleton;
 import org.jdbi.v3.core.Jdbi;
@@ -21,7 +21,7 @@ public class OrderDAO {
     @Inject
     public OrderDAO() {
         this.jdbi = Jdbi.create(Constants.DB_URL);
-        jdbi.registerRowMapper(new FeedbackMapper());
+        jdbi.registerRowMapper(new OrderMapper());
     }
 
 
@@ -56,7 +56,7 @@ public class OrderDAO {
             Update update = handle.createUpdate(query);
             update.bind("user_id", order.getUserId());
             update.bind("product_id", order.getProductId());
-            update.bind("status", order.getStatus() );
+            update.bind("status", OrderStatus.ORDERED);
             return update.executeAndReturnGeneratedKeys()
                     .mapTo(Long.class)
                     .one();
@@ -79,6 +79,16 @@ public class OrderDAO {
             update.bind("id", order.getId());
 
             return update.execute() == 1;
+        });
+    }
+
+    public List<Order> getOrdersForUser(long userId) {
+        return this.jdbi.withHandle(handle -> {
+            String query = "SELECT * FROM orders WHERE user_id = :user_id";
+            return handle.createQuery(query)
+                    .bind(Constants.USER_ID, userId)
+                    .mapTo(Order.class)
+                        .list();
         });
     }
 }

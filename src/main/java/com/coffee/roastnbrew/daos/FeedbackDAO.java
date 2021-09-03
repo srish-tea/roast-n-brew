@@ -5,7 +5,6 @@ import com.coffee.roastnbrew.daomappers.FeedbackDetailedMapper;
 import com.coffee.roastnbrew.daomappers.FeedbackMapper;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
 import com.coffee.roastnbrew.models.feedbacks.Feedback;
-import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.models.feedbacks.FeedbackDetailed;
 import com.coffee.roastnbrew.utils.JSONUtils;
 import com.coffee.roastnbrew.utils.ListUtils;
