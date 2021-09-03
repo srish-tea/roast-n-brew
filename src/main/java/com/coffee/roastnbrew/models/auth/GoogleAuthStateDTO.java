@@ -1,4 +1,4 @@
-package com.coffee.roastnbrew.models;
+package com.coffee.roastnbrew.models.auth;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -14,7 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class LoginResponse {
-    private boolean shouldAskDetails;
-    private User user;
+public class GoogleAuthStateDTO {
+    
+    private String next;
+    private String loginCode;
+    private String errorPath;
+    
 }

@@ -1,10 +1,12 @@
 package com.coffee.roastnbrew.daos;
 
 import com.coffee.roastnbrew.constants.Constants;
+import com.coffee.roastnbrew.daomappers.FeedbackDetailedMapper;
 import com.coffee.roastnbrew.daomappers.FeedbackMapper;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
-import com.coffee.roastnbrew.models.Feedback;
+import com.coffee.roastnbrew.models.feedbacks.Feedback;
 import com.coffee.roastnbrew.models.User;
+import com.coffee.roastnbrew.models.feedbacks.FeedbackDetailed;
 import com.coffee.roastnbrew.utils.JSONUtils;
 import com.coffee.roastnbrew.utils.ListUtils;
 import com.coffee.roastnbrew.utils.StringUtils;
@@ -25,14 +27,27 @@ public class FeedbackDAO {
     public FeedbackDAO() {
         this.jdbi = Jdbi.create(Constants.DB_URL);
         jdbi.registerRowMapper(new FeedbackMapper());
+        jdbi.registerRowMapper(new FeedbackDetailedMapper());
     }
 
-    public Feedback getById(long id) {
+    public FeedbackDetailed getById(long id) {
         return this.jdbi.withHandle(handle -> {
-            String query = "SELECT * FROM feedback WHERE id = :id";
+            String query = "SELECT f.*, "
+                + "       sndr.first_name  as sender_first_name, "
+                + "       sndr.email_id    as sender_email_id, "
+                + "       sndr.image_url   as sender_image_url, "
+                + "       sndr.is_group    as sender_is_group, "
+                + "       recvr.first_name as receiver_first_name, "
+                + "       recvr.email_id   as receiver_email_id, "
+                + "       recvr.image_url  as receiver_image_url, "
+                + "       recvr.is_group   as receiver_is_group "
+                + "FROM feedback f "
+                + "         JOIN user sndr ON f.sender_id = sndr.id "
+                + "         JOIN user recvr ON f.receiver_id = recvr.id "
+                + " WHERE f.id = :id";
             return handle.createQuery(query)
                     .bind(Constants.ID, id)
-                    .mapTo(Feedback.class)
+                    .mapTo(FeedbackDetailed.class)
                     .findFirst()
                     .orElse(null)
                     ;
@@ -90,13 +105,33 @@ public class FeedbackDAO {
         });
     }
 
-    public List<Feedback> getUserFeedbacks(User user) {
+    public List<FeedbackDetailed> getUserFeedbacks(long userId, boolean publicOnly, boolean visibleOnly) {
         return this.jdbi.withHandle(handle -> {
-            String query = "SELECT * FROM feedback WHERE receiver_id = :receiver_id";
-            return handle.createQuery(query)
-                    .bind("receiver_id", user.getId())
-                    .mapTo(Feedback.class)
-                    .list();
+            StringBuilder query = new StringBuilder(""
+                + "SELECT f.*, "
+                + "       sndr.first_name  as sender_first_name, "
+                + "       sndr.email_id    as sender_email_id, "
+                + "       sndr.image_url   as sender_image_url, "
+                + "       sndr.is_group    as sender_is_group, "
+                + "       recvr.first_name as receiver_first_name, "
+                + "       recvr.email_id   as receiver_email_id, "
+                + "       recvr.image_url  as receiver_image_url, "
+                + "       recvr.is_group   as receiver_is_group "
+                + "FROM feedback f "
+                + "         JOIN user sndr ON f.sender_id = sndr.id "
+                + "         JOIN user recvr ON f.receiver_id = recvr.id");
+            query.append(" WHERE receiver_id = :user_id");
+            if (publicOnly) {
+                query.append(" AND is_public = true ");
+            }
+            if (visibleOnly) {
+                query.append(" AND is_visible = true ");
+            }
+            query.append(" ORDER BY f.id DESC");
+            return handle.createQuery(query.toString())
+                .bind("user_id", userId)
+                .mapTo(FeedbackDetailed.class)
+                .list();
         });
     }
 }
