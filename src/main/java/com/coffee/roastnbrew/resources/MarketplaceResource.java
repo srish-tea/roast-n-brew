@@ -59,5 +59,6 @@ public class MarketplaceResource {
     @Path("/orders")
     public Response getUserOrders(@QueryParam("userId") long userId) {
         return RestUtils.ok(marketplaceService.getOrdersByUserId(userId));
+      
     }
 }
