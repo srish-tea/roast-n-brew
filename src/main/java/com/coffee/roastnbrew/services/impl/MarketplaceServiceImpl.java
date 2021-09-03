@@ -14,6 +14,7 @@ import com.coffee.roastnbrew.utils.RestUtils;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.SneakyThrows;
+import org.joda.time.DateTime;
 import org.jvnet.hk2.annotations.Service;
 
 import javax.inject.Inject;
@@ -72,7 +73,7 @@ public class MarketplaceServiceImpl implements MarketplaceService {
         zapDetails.put("user", user.getFirstName());
         zapDetails.put("email_id", user.getEmailId());
         zapDetails.put("count", 1);
-        zapDetails.put("ordered_time", System.currentTimeMillis());
+        zapDetails.put("ordered_time", new DateTime(System.currentTimeMillis()).toString("yyyy-MM-dd HH:mm"));
 
         RestUtils.request("https://hooks.zapier.com/hooks/catch/10771719/b4gz0sv/",
             RestUtils.REQUEST_METHOD_POST, JSONUtils.toJson(zapDetails), null, null);
