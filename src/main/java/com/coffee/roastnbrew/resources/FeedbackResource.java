@@ -1,7 +1,6 @@
 package com.coffee.roastnbrew.resources;
 
 import com.coffee.roastnbrew.dtos.BadResponse;
-import com.coffee.roastnbrew.exceptions.BadRequest;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
 import com.coffee.roastnbrew.models.feedbacks.Feedback;
 import com.coffee.roastnbrew.services.FeedbackService;
@@ -30,8 +29,8 @@ public class FeedbackResource {
 
     @GET
     public Response getFeedbacks(@QueryParam("user_id") long userId,
-                                 @QueryParam("public_only") @DefaultValue("false") boolean publicOnly,
-                                 @QueryParam("visible_only") @DefaultValue("false") boolean visibleOnly) {
+        @QueryParam("public_only") @DefaultValue("false") boolean publicOnly,
+        @QueryParam("visible_only") @DefaultValue("false") boolean visibleOnly) {
         return RestUtils.ok(feedbackService.getFeedbacks(userId, publicOnly, visibleOnly));
     }
 
@@ -50,13 +49,19 @@ public class FeedbackResource {
     @PUT
     public Response updateFeedback(Feedback feedback) {
         feedbackService.updateFeedback(feedback);
-        //send notification
+        return RestUtils.ok(feedbackService.getFeedbackById(feedback.getId()));
+    }
+
+    @PUT
+    @Path("/reply")
+    public Response replyToFeedback(Feedback feedback) {
+        feedbackService.replyToFeedback(feedback);
         return RestUtils.ok(feedbackService.getFeedbackById(feedback.getId()));
     }
 
     @GET
     @Path("/{id}")
-    public Response getFeedback(@PathParam("id") Long id) {
+    public Response getFeedback(@PathParam("id") Long id) throws IOException {
         return RestUtils.ok(feedbackService.getFeedbackById(id));
     }
 }

@@ -35,7 +35,6 @@ public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInj
                                 bind(NotificationServiceImpl.class).to(NotificationService.class).in(Singleton.class);
                                 bind(AuthServiceImpl.class).to(AuthService.class).in(Singleton.class);
 
-
                                 bind(UsersDAO.class).to(UsersDAO.class).in(Singleton.class);
                                 bind(FeedbackDAO.class).to(FeedbackDAO.class).in(Singleton.class);
                                 bind(RequestDAO.class).to(RequestDAO.class).in(Singleton.class);

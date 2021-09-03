@@ -23,6 +23,7 @@ public class NotificationMapper implements RowMapper<Notification> {
         notification.setCreatedTs(rs.getTimestamp("created_ts").getTime());
         notification.setUpdatedTs(rs.getTimestamp("updated_ts").getTime());
         notification.setDeleted(rs.getBoolean("is_deleted"));
+        notification.setEntityImageUrl(rs.getString("entity_image_url"));
         
         return notification;
     }
