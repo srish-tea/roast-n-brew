@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @Singleton
 public class MarketplaceServiceImpl implements MarketplaceService {
-    
+
     ProductDAO productDAO;
     OrderDAO orderDAO;
     NotificationService notificationService;
@@ -61,7 +61,7 @@ public class MarketplaceServiceImpl implements MarketplaceService {
         }
         long id = orderDAO.createOrder(order);
         notificationService.orderPlacedNotification(user, product);
-        productDAO.decreaseProductCount(product, 1);
+        decreaseProductCount(product, 1);
         return id;
     }
 

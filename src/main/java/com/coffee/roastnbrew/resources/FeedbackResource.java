@@ -1,8 +1,10 @@
 package com.coffee.roastnbrew.resources;
 
+import com.coffee.roastnbrew.dtos.BadResponse;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
 import com.coffee.roastnbrew.models.feedbacks.Feedback;
 import com.coffee.roastnbrew.services.FeedbackService;
+import com.coffee.roastnbrew.services.SentimentAnalysisService;
 import com.coffee.roastnbrew.utils.RestUtils;
 
 import javax.inject.Inject;
@@ -17,12 +19,14 @@ import java.io.IOException;
 @Singleton
 public class FeedbackResource {
     FeedbackService feedbackService;
+    SentimentAnalysisService sentimentAnalysisService;
 
     @Inject
-    public FeedbackResource(FeedbackService feedbackService) {
+    public FeedbackResource(FeedbackService feedbackService, SentimentAnalysisService sentimentAnalysisService) {
         this.feedbackService = feedbackService;
+        this.sentimentAnalysisService = sentimentAnalysisService;
     }
-    
+
     @GET
     public Response getFeedbacks(@QueryParam("user_id") long userId,
         @QueryParam("public_only") @DefaultValue("false") boolean publicOnly,
@@ -32,11 +36,16 @@ public class FeedbackResource {
 
     @POST
     public Response giveFeedback(Feedback feedback) throws IOException, CoffeeException {
+        boolean positive = sentimentAnalysisService.isPositiveContent(feedback.getContent());
+        if (!positive) {
+            return RestUtils.ok(BadResponse.builder().message("Haw! That's rude. We would like you to sound nice.")
+                    .code(Response.Status.BAD_REQUEST.getStatusCode()).build());
+        }
         long feedbackId = feedbackService.giveFeedback(feedback);
         //send notification
         return RestUtils.ok(feedbackService.getFeedbackById(feedbackId));
     }
-    
+
     @PUT
     public Response updateFeedback(Feedback feedback) {
         feedbackService.updateFeedback(feedback);
