@@ -1,4 +1,4 @@
-package com.coffee.roastnbrew.models;
+package com.coffee.roastnbrew.models.feedbacks;
 
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -13,9 +13,10 @@ import lombok.*;
 @AllArgsConstructor
 @JsonSerialize()
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Request {
-    long requesterId;
-    long requesteeId;
+public class FeedbackContent {
+    String startText;
+    String continueText;
+    String stopText;
     String message;
-
+    String gifUrl;
 }

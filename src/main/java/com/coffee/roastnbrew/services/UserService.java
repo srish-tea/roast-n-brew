@@ -7,7 +7,7 @@ import org.jvnet.hk2.annotations.Contract;
 @Contract
 public interface UserService {
     
-    User getUserById(long id);
+    User getUserById(long id, boolean withCardDetails);
 
     List<User> getAllUsers();
     

@@ -2,7 +2,7 @@ package com.coffee.roastnbrew.resources;
 
 import com.coffee.roastnbrew.exceptions.BadRequest;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
-import com.coffee.roastnbrew.models.LoginResponse;
+import com.coffee.roastnbrew.models.auth.LoginResponse;
 import com.coffee.roastnbrew.services.AuthService;
 import com.coffee.roastnbrew.utils.RestUtils;
 import com.coffee.roastnbrew.utils.StringUtils;
