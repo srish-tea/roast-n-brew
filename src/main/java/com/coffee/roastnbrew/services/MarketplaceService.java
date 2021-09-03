@@ -1,17 +1,22 @@
 package com.coffee.roastnbrew.services;
 
 import com.coffee.roastnbrew.models.Product;
+import com.coffee.roastnbrew.models.marketplace.Order;
 import org.jvnet.hk2.annotations.Contract;
+
+import java.util.List;
 
 @Contract
 public interface MarketplaceService {
-    String getAllProducts();
+    List<Product> getAllProducts();
 
     Product getProductById(long productId);
 
-    String addProduct(Product product);
+    long addProduct(Product product);
 
-    String getOrderById(long orderId);
+    Order getOrderById(long orderId);
 
-    String createOrderForUser(long productId, String userId);
+    long createOrder(Order order);
+
+    boolean decreaseProductCount(Product product, int orderQuantity);
 }
