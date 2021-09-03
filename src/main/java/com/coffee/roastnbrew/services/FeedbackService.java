@@ -13,6 +13,8 @@ public interface FeedbackService {
 
     long giveFeedback(Feedback feedback) throws IOException, CoffeeException;
 
+    boolean replyToFeedback(Feedback feedback);
+    
     boolean updateFeedback(Feedback feedback);
     
     FeedbackDetailed getFeedbackById(long id);

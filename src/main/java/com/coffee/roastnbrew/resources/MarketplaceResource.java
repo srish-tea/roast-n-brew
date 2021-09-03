@@ -1,5 +1,6 @@
 package com.coffee.roastnbrew.resources;
 
+import com.coffee.roastnbrew.exceptions.BadRequest;
 import com.coffee.roastnbrew.models.Product;
 import com.coffee.roastnbrew.models.marketplace.Order;
 import com.coffee.roastnbrew.services.MarketplaceService;
@@ -50,7 +51,7 @@ public class MarketplaceResource {
 
     @POST
     @Path("/products/{product_id}/order")
-    public Response orderProduct(Order order) {
+    public Response orderProduct(Order order) throws BadRequest {
         marketplaceService.createOrder(order);
         return RestUtils.ok(marketplaceService.getOrderById(order.getId()));
     }

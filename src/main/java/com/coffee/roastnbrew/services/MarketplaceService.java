@@ -1,5 +1,6 @@
 package com.coffee.roastnbrew.services;
 
+import com.coffee.roastnbrew.exceptions.BadRequest;
 import com.coffee.roastnbrew.models.Product;
 import com.coffee.roastnbrew.models.marketplace.Order;
 import org.jvnet.hk2.annotations.Contract;
@@ -16,7 +17,7 @@ public interface MarketplaceService {
 
     Order getOrderById(long orderId);
 
-    long createOrder(Order order);
+    long createOrder(Order order) throws BadRequest;
 
     boolean decreaseProductCount(Product product, int orderQuantity);
 }

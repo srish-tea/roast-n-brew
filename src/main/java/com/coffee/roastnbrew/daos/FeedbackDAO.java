@@ -5,7 +5,6 @@ import com.coffee.roastnbrew.daomappers.FeedbackDetailedMapper;
 import com.coffee.roastnbrew.daomappers.FeedbackMapper;
 import com.coffee.roastnbrew.exceptions.CoffeeException;
 import com.coffee.roastnbrew.models.feedbacks.Feedback;
-import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.models.feedbacks.FeedbackDetailed;
 import com.coffee.roastnbrew.utils.JSONUtils;
 import com.coffee.roastnbrew.utils.ListUtils;
@@ -16,7 +15,6 @@ import org.jdbi.v3.core.statement.Update;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +52,26 @@ public class FeedbackDAO {
                     ;
         });
     }
-
+    
+    public boolean replyToFeedback(Feedback feedback) {
+        return this.jdbi.withHandle(handle -> {
+            StringBuilder query = new StringBuilder("UPDATE feedback SET ");
+            
+            if (!StringUtils.isNullOrEmpty(feedback.getReceiverReply())) {
+                query.append("receiver_reply = :receiver_reply, ");
+            }
+            query.append("WHERE id = :id ");
+            
+            Update update = handle.createUpdate(query.toString());
+            if (!StringUtils.isNullOrEmpty(feedback.getReceiverReply())) {
+                update.bind("receiver_reply", feedback.getReceiverReply());
+            }
+            update.bind("id", feedback.getId());
+            
+            return update.execute() == 1;
+        });
+    }
+    
     public boolean updateFeedback(Feedback feedback) {
         return this.jdbi.withHandle(handle -> {
             StringBuilder query = new StringBuilder("UPDATE feedback SET ");
@@ -76,7 +93,7 @@ public class FeedbackDAO {
         });
     }
 
-    public long addFeedback(Feedback feedback) throws IOException, CoffeeException {
+    public long addFeedback(Feedback feedback) throws CoffeeException {
         return this.jdbi.withHandle(handle -> {
             String query =
                     "INSERT INTO feedback (sender_id, receiver_id, "

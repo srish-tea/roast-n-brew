@@ -2,7 +2,6 @@ package com.coffee.roastnbrew.daos;
 
 import com.coffee.roastnbrew.constants.Constants;
 import com.coffee.roastnbrew.daomappers.FeedbackMapper;
-import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.models.marketplace.Order;
 import com.coffee.roastnbrew.utils.StringUtils;
 import com.google.inject.Singleton;
