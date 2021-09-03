@@ -39,6 +39,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     
     @Override
     public List<FeedbackDetailed> getFeedbacks(long userId, boolean publicOnly, boolean visibleOnly) {
-        return feedbackDAO.getUserFeedbacks(userId, publicOnly, visibleOnly);
+        return feedbackDAO.getDetailedUserFeedbacks(userId, publicOnly, visibleOnly);
     }
 }

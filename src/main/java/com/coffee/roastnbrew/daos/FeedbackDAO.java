@@ -104,8 +104,18 @@ public class FeedbackDAO {
                     .one();
         });
     }
+    
+    public List<Feedback> getFeedbacksForUser(long userId) {
+        return this.jdbi.withHandle(handle -> {
+            String query = "SELECT * FROM feedback WHERE receiver_id = :user_id AND is_deleted = false";
+            return handle.createQuery(query)
+                .bind("user_id", userId)
+                .mapTo(Feedback.class)
+                .list();
+        });
+    }
 
-    public List<FeedbackDetailed> getUserFeedbacks(long userId, boolean publicOnly, boolean visibleOnly) {
+    public List<FeedbackDetailed> getDetailedUserFeedbacks(long userId, boolean publicOnly, boolean visibleOnly) {
         return this.jdbi.withHandle(handle -> {
             StringBuilder query = new StringBuilder(""
                 + "SELECT f.*, "

@@ -1,9 +1,9 @@
 package com.coffee.roastnbrew.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.EnumMap;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,5 +31,5 @@ public class User extends Entity {
     private List<String> cannotTalkAbout;
     private int coinsBalance;
     private boolean isGroup;
-
+    private EnumMap<Card, Integer> cardCounts;
 }
