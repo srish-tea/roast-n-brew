@@ -17,7 +17,6 @@ import org.jvnet.hk2.annotations.Service;
 @Service
 @Singleton
 public class UsersDAO {
-    
     private final Jdbi jdbi;
 
     @Inject

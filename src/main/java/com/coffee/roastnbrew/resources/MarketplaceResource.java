@@ -1,6 +1,7 @@
 package com.coffee.roastnbrew.resources;
 
 import com.coffee.roastnbrew.models.Product;
+import com.coffee.roastnbrew.models.marketplace.Order;
 import com.coffee.roastnbrew.services.MarketplaceService;
 import com.coffee.roastnbrew.utils.RestUtils;
 
@@ -38,7 +39,7 @@ public class MarketplaceResource {
     @Path("/products")
     public Response addProduct(Product product) {
         marketplaceService.addProduct(product);
-        return RestUtils.noContentResponse();
+        return RestUtils.ok(marketplaceService.getProductById(product.getId()));
     }
 
     @Path("/orders/{id}")
@@ -49,8 +50,8 @@ public class MarketplaceResource {
 
     @POST
     @Path("/products/{product_id}/order")
-    public Response orderProduct(@PathParam("product_id") long productId, @QueryParam("user_id") String userId) {
-        marketplaceService.createOrderForUser(productId, userId);
-        return RestUtils.noContentResponse();
+    public Response orderProduct(Order order) {
+        marketplaceService.createOrder(order);
+        return RestUtils.ok(marketplaceService.getOrderById(order.getId()));
     }
 }

@@ -1,9 +1,6 @@
 package com.coffee.roastnbrew.app;
 
-import com.coffee.roastnbrew.daos.FeedbackDAO;
-import com.coffee.roastnbrew.daos.NotificationDAO;
-import com.coffee.roastnbrew.daos.RequestDAO;
-import com.coffee.roastnbrew.daos.UsersDAO;
+import com.coffee.roastnbrew.daos.*;
 import com.coffee.roastnbrew.services.*;
 import com.coffee.roastnbrew.services.impl.FeedbackServiceImpl;
 import com.coffee.roastnbrew.services.impl.AuthServiceImpl;
@@ -42,6 +39,8 @@ public class DependencyInjectionBundle implements ConfiguredBundle<DependencyInj
                                 bind(FeedbackDAO.class).to(FeedbackDAO.class).in(Singleton.class);
                                 bind(RequestDAO.class).to(RequestDAO.class).in(Singleton.class);
                                 bind(NotificationDAO.class).to(NotificationDAO.class).in(Singleton.class);
+                                bind(ProductDAO.class).to(ProductDAO.class).in(Singleton.class);
+                                bind(OrderDAO.class).to(OrderDAO.class).in(Singleton.class);
 
                                 for (NamedProperty<? extends Object> namedProperty : configuration.getNamedProperties()) {
                                     bind((Object) namedProperty.getValue()).to((Class<Object>) namedProperty.getClazz()).named(namedProperty.getId());
