@@ -27,7 +27,6 @@ public class RequestResource {
     @POST
     public Response sendRequest(Request request) {
         requestService.sendRequest(request);
-        //send notification
         return RestUtils.noContentResponse();
     }
 

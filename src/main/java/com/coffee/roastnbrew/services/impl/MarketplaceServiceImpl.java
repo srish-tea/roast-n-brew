@@ -2,9 +2,13 @@ package com.coffee.roastnbrew.services.impl;
 
 import com.coffee.roastnbrew.daos.OrderDAO;
 import com.coffee.roastnbrew.daos.ProductDAO;
+import com.coffee.roastnbrew.daos.UsersDAO;
+import com.coffee.roastnbrew.exceptions.BadRequest;
 import com.coffee.roastnbrew.models.Product;
+import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.models.marketplace.Order;
 import com.coffee.roastnbrew.services.MarketplaceService;
+import com.coffee.roastnbrew.services.NotificationService;
 import org.jvnet.hk2.annotations.Service;
 
 import javax.inject.Inject;
@@ -14,13 +18,18 @@ import java.util.List;
 @Service
 @Singleton
 public class MarketplaceServiceImpl implements MarketplaceService {
+    
     ProductDAO productDAO;
     OrderDAO orderDAO;
+    NotificationService notificationService;
+    UsersDAO usersDAO;
 
     @Inject
-    MarketplaceServiceImpl(ProductDAO productDAO, OrderDAO orderDAO) {
+    MarketplaceServiceImpl(ProductDAO productDAO, OrderDAO orderDAO, NotificationService notificationService, UsersDAO usersDAO) {
         this.productDAO = productDAO;
         this.orderDAO = orderDAO;
+        this.notificationService = notificationService;
+        this.usersDAO = usersDAO;
     }
 
     @Override
@@ -44,10 +53,15 @@ public class MarketplaceServiceImpl implements MarketplaceService {
     }
 
     @Override
-    public long createOrder(Order order) {
-        long id = orderDAO.createOrder(order);
+    public long createOrder(Order order) throws BadRequest {
+        User user = usersDAO.getById(order.getUserId());
         Product product = productDAO.getById(order.getProductId());
-        decreaseProductCount(product, 1);
+        if (user.getCoinsBalance() < product.getPrice()) {
+            throw new BadRequest("Not enough coins!");
+        }
+        long id = orderDAO.createOrder(order);
+        notificationService.orderPlacedNotification(user, product);
+        productDAO.decreaseProductCount(product, 1);
         return id;
     }
 

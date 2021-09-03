@@ -42,3 +42,15 @@ CREATE TABLE `notification`
     PRIMARY KEY (`id`),
     KEY `idx_user_id` (`user_id`, `is_read`)
 );
+
+create TABLE `request`
+(
+    `id`           bigint(20) NOT NULL AUTO_INCREMENT,
+    `requestor_id` bigint(20) NOT NULL,
+    `requestee_id` bigint(20) NOT NULL,
+    `message`      text       NOT NULL,
+    `created_ts`   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_ts`   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP,
+    `is_deleted`   boolean             DEFAULT false,
+    PRIMARY KEY (`id`)
+);

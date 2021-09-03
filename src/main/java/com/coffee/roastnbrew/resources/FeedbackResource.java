@@ -36,11 +36,17 @@ public class FeedbackResource {
         //send notification
         return RestUtils.ok(feedbackService.getFeedbackById(feedbackId));
     }
-
+    
     @PUT
     public Response updateFeedback(Feedback feedback) {
-         feedbackService.updateFeedback(feedback);
-        //send notification
+        feedbackService.updateFeedback(feedback);
+        return RestUtils.ok(feedbackService.getFeedbackById(feedback.getId()));
+    }
+
+    @PUT
+    @Path("/reply")
+    public Response replyToFeedback(Feedback feedback) {
+        feedbackService.replyToFeedback(feedback);
         return RestUtils.ok(feedbackService.getFeedbackById(feedback.getId()));
     }
 

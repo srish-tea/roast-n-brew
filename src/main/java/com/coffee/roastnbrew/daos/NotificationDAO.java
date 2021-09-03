@@ -1,9 +1,15 @@
 package com.coffee.roastnbrew.daos;
 
+import com.coffee.roastnbrew.constants.Constants;
 import com.coffee.roastnbrew.daomappers.NotificationMapper;
+import com.coffee.roastnbrew.models.Entity;
 import com.coffee.roastnbrew.models.notifications.Notification;
+import com.coffee.roastnbrew.models.notifications.NotificationType;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map.Entry;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
@@ -19,22 +25,32 @@ public class NotificationDAO {
     
     @Inject
     public NotificationDAO() {
-        this.jdbi =  Jdbi.create("jdbc:mysql://localhost:3306/coffee?autoReconnect=true&user=root&password=pass&useSSL=false&useServerPrepStmts=false&allowPublicKeyRetrieval=false");
+        this.jdbi =  Jdbi.create(Constants.DB_URL);
         jdbi.registerRowMapper(new NotificationMapper());
     }
     
     public List<Notification> getNotifications(long userId, boolean unreadOnly) {
         return this.jdbi.withHandle(handle -> {
-            StringBuilder queryBuilder = new StringBuilder("SELECT * FROM notification WHERE user_id = :user_id ");
-            if (unreadOnly) {
-                queryBuilder.append(" AND is_read = false");
-            }
-            queryBuilder.append(" ORDER BY id DESC");
             
-            return handle.createQuery(queryBuilder.toString())
-                .bind("user_id", userId)
-                .mapTo(Notification.class)
-                .list();
+            List<Notification> notifications = new ArrayList<>();
+            for (Entry<String, List<NotificationType>> entry: NotificationType.entityToTypeMap.entrySet()) {
+                StringBuilder queryBuilder = new StringBuilder(String
+                    .format("SELECT *, e.image_url as entity_image_url from notification n join %s e on "
+                            + "n.entity_id = e.id AND n.type in (<types>) AND n.user_id = :user_id ",
+                        entry.getKey()));
+                if (unreadOnly) {
+                    queryBuilder.append(" AND is_read = false");
+                }
+                queryBuilder.append(" ORDER BY n.id DESC");
+
+                notifications.addAll(handle.createQuery(queryBuilder.toString())
+                    .bind("user_id", userId)
+                    .bindList("types", entry.getValue())
+                    .mapTo(Notification.class)
+                    .list());
+            }
+            notifications.sort(Comparator.comparing(Entity::getCreatedTs).reversed());
+            return notifications;
         });
     }
     

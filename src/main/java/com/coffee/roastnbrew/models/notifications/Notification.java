@@ -27,5 +27,5 @@ public class Notification extends Entity {
     private boolean isRead;
     private Long entityId;
     private Long fromId;
-
+    private String entityImageUrl;
 }
