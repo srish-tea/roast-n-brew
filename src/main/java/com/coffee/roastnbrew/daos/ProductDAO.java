@@ -1,9 +1,8 @@
 package com.coffee.roastnbrew.daos;
 
 import com.coffee.roastnbrew.constants.Constants;
-import com.coffee.roastnbrew.daomappers.FeedbackMapper;
+import com.coffee.roastnbrew.daomappers.ProductMapper;
 import com.coffee.roastnbrew.models.Product;
-import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.utils.StringUtils;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.Update;
@@ -21,7 +20,7 @@ public class ProductDAO {
     @Inject
     public ProductDAO() {
         this.jdbi = Jdbi.create(Constants.DB_URL);
-        jdbi.registerRowMapper(new FeedbackMapper());
+        jdbi.registerRowMapper(new ProductMapper());
     }
 
     public Product getById(long productId) {
@@ -97,10 +96,10 @@ public class ProductDAO {
 
     public boolean decreaseProductCount(Product product, int orderQuantity) {
         return this.jdbi.withHandle(handle -> {
-            StringBuilder query = new StringBuilder("UPDATE product SET count = :count WHERE id = :product_id");
+            StringBuilder query = new StringBuilder("UPDATE product SET count = :count WHERE id = :id");
 
             Update update = handle.createUpdate(query.toString());
-            update.bind("count", product.getCount() - orderQuantity);
+            update.bind("count", (product.getCount() - orderQuantity));
             update.bind("id", product.getId());
 
             return update.execute() == 1;

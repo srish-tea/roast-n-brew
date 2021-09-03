@@ -49,9 +49,15 @@ public class MarketplaceResource {
     }
 
     @POST
-    @Path("/products/{product_id}/order")
+    @Path("/orders")
     public Response orderProduct(Order order) {
         marketplaceService.createOrder(order);
         return RestUtils.ok(marketplaceService.getOrderById(order.getId()));
+    }
+
+    @GET
+    @Path("/orders")
+    public Response getUserOrders(@QueryParam("userId") long userId) {
+        return RestUtils.ok(marketplaceService.getOrdersByUserId(userId));
     }
 }
