@@ -24,6 +24,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public long giveFeedback(Feedback feedback) throws IOException, CoffeeException {
+        feedback.setVisible(feedback.isPublic());
         return feedbackDAO.addFeedback(feedback);
     }
 

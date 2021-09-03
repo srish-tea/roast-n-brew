@@ -11,6 +11,7 @@ import com.coffee.roastnbrew.utils.JSONUtils;
 import com.coffee.roastnbrew.utils.ListUtils;
 import com.coffee.roastnbrew.utils.StringUtils;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.Query;
 import org.jdbi.v3.core.statement.Update;
 
 import javax.inject.Inject;
@@ -115,7 +116,7 @@ public class FeedbackDAO {
         });
     }
 
-    public List<FeedbackDetailed> getDetailedUserFeedbacks(long userId, boolean publicOnly, boolean visibleOnly) {
+    public List<FeedbackDetailed> getDetailedUserFeedbacks(Long userId, boolean publicOnly, boolean visibleOnly) {
         return this.jdbi.withHandle(handle -> {
             StringBuilder query = new StringBuilder(""
                 + "SELECT f.*, "
@@ -130,18 +131,23 @@ public class FeedbackDAO {
                 + "FROM feedback f "
                 + "         JOIN user sndr ON f.sender_id = sndr.id "
                 + "         JOIN user recvr ON f.receiver_id = recvr.id");
-            query.append(" WHERE receiver_id = :user_id");
+            if (userId != null) {
+                query.append(" WHERE receiver_id = :user_id");
+            }
+            
             if (publicOnly) {
                 query.append(" AND is_public = true ");
             }
             if (visibleOnly) {
                 query.append(" AND is_visible = true ");
             }
+
             query.append(" ORDER BY f.id DESC");
-            return handle.createQuery(query.toString())
-                .bind("user_id", userId)
-                .mapTo(FeedbackDetailed.class)
-                .list();
+            Query queryObj = handle.createQuery(query.toString());
+            if (userId != null) {
+                queryObj.bind("user_id", userId);
+            }
+            return queryObj.mapTo(FeedbackDetailed.class).list();
         });
     }
 }
