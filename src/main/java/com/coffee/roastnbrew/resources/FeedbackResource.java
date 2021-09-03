@@ -54,7 +54,7 @@ public class FeedbackResource {
         //send notification
         return RestUtils.ok(feedbackService.getFeedbackById(feedbackId));
     }
-
+    
     @PUT
     public Response updateFeedback(Feedback feedback) {
         feedbackService.updateFeedback(feedback);

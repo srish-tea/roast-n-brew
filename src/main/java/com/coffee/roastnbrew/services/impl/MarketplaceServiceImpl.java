@@ -9,6 +9,11 @@ import com.coffee.roastnbrew.models.User;
 import com.coffee.roastnbrew.models.marketplace.Order;
 import com.coffee.roastnbrew.services.MarketplaceService;
 import com.coffee.roastnbrew.services.NotificationService;
+import com.coffee.roastnbrew.utils.JSONUtils;
+import com.coffee.roastnbrew.utils.RestUtils;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.SneakyThrows;
 import org.jvnet.hk2.annotations.Service;
 
 import javax.inject.Inject;
@@ -18,7 +23,7 @@ import java.util.List;
 @Service
 @Singleton
 public class MarketplaceServiceImpl implements MarketplaceService {
-
+    
     ProductDAO productDAO;
     OrderDAO orderDAO;
     NotificationService notificationService;
@@ -52,16 +57,28 @@ public class MarketplaceServiceImpl implements MarketplaceService {
         return orderDAO.getById(orderId);
     }
 
+    @SneakyThrows
     @Override
-    public long createOrder(Order order) throws BadRequest {
+    public long createOrder(Order order) {
         User user = usersDAO.getById(order.getUserId());
         Product product = productDAO.getById(order.getProductId());
         if (user.getCoinsBalance() < product.getPrice()) {
             throw new BadRequest("Not enough coins!");
         }
         long id = orderDAO.createOrder(order);
+
+        Map<String, Object> zapDetails = new HashMap<>();
+        zapDetails.put("product", product.getName());
+        zapDetails.put("user", user.getFirstName());
+        zapDetails.put("email_id", user.getEmailId());
+        zapDetails.put("count", 1);
+        zapDetails.put("ordered_time", System.currentTimeMillis());
+
+        RestUtils.request("https://hooks.zapier.com/hooks/catch/10771719/b4gz0sv/",
+            RestUtils.REQUEST_METHOD_POST, JSONUtils.toJson(zapDetails), null, null);
+
         notificationService.orderPlacedNotification(user, product);
-        decreaseProductCount(product, 1);
+        productDAO.decreaseProductCount(product, 1);
         return id;
     }
 
