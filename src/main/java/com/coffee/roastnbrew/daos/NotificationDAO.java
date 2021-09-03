@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.Update;
 import org.jvnet.hk2.annotations.Service;
 
 @Slf4j
@@ -24,7 +25,7 @@ public class NotificationDAO {
     
     public List<Notification> getNotifications(long userId, boolean unreadOnly) {
         return this.jdbi.withHandle(handle -> {
-            StringBuilder queryBuilder = new StringBuilder("SELECT * FROM notifications WHERE user_id = :user_id ");
+            StringBuilder queryBuilder = new StringBuilder("SELECT * FROM notification WHERE user_id = :user_id ");
             if (unreadOnly) {
                 queryBuilder.append(" AND is_read = false");
             }
@@ -39,10 +40,26 @@ public class NotificationDAO {
     
     public boolean markNotificationsRead(List<Long> notificationsIds) {
         return this.jdbi.withHandle(handle -> {
-            String query = "UPDATE notifications SET is_read = true WHERE id in (<notification_ids>)";
+            String query = "UPDATE notification SET is_read = true WHERE id in (<notification_ids>)";
             return handle.createUpdate(query)
                 .bindList("notification_ids", notificationsIds)
                 .execute() == notificationsIds.size();
+        });
+    }
+
+    public long createNotification(Notification notification) {
+        return this.jdbi.withHandle(handle -> {
+            String query = "INSERT INTO notification (user_id, type, message, entity_id, from_id) "
+                + "VALUES (:user_id, :type, :message, :entity_id, :from_id)";
+            Update update = handle.createUpdate(query);
+            update.bind("user_id", notification.getUserId());
+            update.bind("type", notification.getType());
+            update.bind("message", notification.getMessage());
+            update.bind("entity_id", notification.getEntityId());
+            update.bind("from_id", notification.getFromId());
+            return update.executeAndReturnGeneratedKeys()
+                .mapTo(Long.class)
+                .one();
         });
     }
 }
