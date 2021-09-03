@@ -19,5 +19,7 @@ public interface FeedbackService {
     
     FeedbackDetailed getFeedbackById(long id);
 
-    List<FeedbackDetailed> getFeedbacks(long userId, boolean publicOnly, boolean visibleOnly);
+    List<FeedbackDetailed> getFeedbacks(long receiverId, boolean publicOnly, boolean visibleOnly);
+
+    List<FeedbackDetailed> getGivenFeedbacks(long senderId, boolean publicOnly, boolean visibleOnly);
 }
