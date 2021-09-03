@@ -19,5 +19,7 @@ public interface MarketplaceService {
 
     long createOrder(Order order) throws BadRequest;
 
+    List<Order> getOrdersByUserId(long userId);
+
     boolean decreaseProductCount(Product product, int orderQuantity);
 }

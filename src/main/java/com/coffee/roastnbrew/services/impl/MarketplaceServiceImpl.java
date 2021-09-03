@@ -69,4 +69,9 @@ public class MarketplaceServiceImpl implements MarketplaceService {
     public boolean decreaseProductCount(Product product, int orderQuantity) {
         return productDAO.decreaseProductCount(product, orderQuantity);
     }
+
+    @Override
+    public List<Order> getOrdersByUserId(long userId) {
+        return orderDAO.getOrdersForUser(userId);
+    }
 }
